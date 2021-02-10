@@ -23,10 +23,9 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+
         String selectedCompany = args[0];
-
         String searchQuery = args[1];
-
         String orgMethod = args[2].toLowerCase();
 
         JobScraper scraper = new JobScraper();

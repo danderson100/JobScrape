@@ -7,12 +7,14 @@ public class Job {
     private String company;
     private String location;
     private String postDate;
+    private String summary;
 
-    public Job(String title, String company, String location, String postDate) {
+    public Job(String title, String company, String location, String postDate, String summary) {
         this.title = title;
         this.company = company;
         this.location = location;
         this.postDate = postDate;
+        this.summary = summary;
     }
 
     public Job() {
@@ -50,6 +52,10 @@ public class Job {
 
     public void setPostDate(String postDate) {
         this.postDate = postDate;
+    }
+
+    public String getSummary() {
+        return summary;
     }
 
     @Override
