@@ -67,7 +67,7 @@ public class Job {
         str.append("Title: ").append(title).append(" | ");
         str.append("Company: ").append(company).append(" | ");
         str.append("Location: ").append(location).append(" | ");
-        str.append("Date Posted: ").append(postDate).append(" |\n");
+        str.append("Date Posted: ").append(postDate).append("\n");
         str.append("-----------------------------------------");
 
         return str.toString();

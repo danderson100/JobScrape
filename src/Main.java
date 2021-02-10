@@ -1,7 +1,4 @@
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Author: David Anderson
@@ -36,13 +33,8 @@ public class Main {
         scraper.scrapeForJobs(searchQuery, selectedCompany);
         List<Job> jobs = scraper.getAllJobs();
 
-        Map<String, Job> sortedJobs = null;
+        Map<String, Job> sortedJobs = organize(orgMethod, jobs);
 
-        if (orgMethod.equals("location")) {
-            sortedJobs = organize(orgMethod, jobs);
-        }
-
-        assert sortedJobs != null;
         printSortedJobs(sortedJobs);
 
     }
@@ -50,12 +42,48 @@ public class Main {
     private static Map<String, Job> organize(String orgMethod, List<Job> jobs) {
         //organize by location
         Map<String, Job> sortedJobs = new TreeMap<>();
-
-        if (orgMethod.equals("location")) {
-            for (Job job : jobs) {
-                sortedJobs.put(job.getLocation(), job);
+        switch (orgMethod) {
+            case "location" -> {
+                for (Job job : jobs) {
+                    sortedJobs.put(job.getLocation(), job);
+                }
+            }
+            case "company" -> {
+                for (Job job : jobs) {
+                    sortedJobs.put(job.getCompany(), job);
+                }
+            }
+            case "posted" -> {
+                List<Job> sortedByPosted = organizeByPosted(jobs);
+                for (Job job : sortedByPosted) {
+                    System.out.println(job.toString());
+                }
             }
         }
+
+        return sortedJobs;
+    }
+    //TODO: Clean this method up
+    private static List<Job> organizeByPosted(List<Job> unsortedJobs) {
+        LinkedList<Job> sortedJobs = new LinkedList<>();
+        Map<Integer, Job> sortedJobsMap = new TreeMap<>();
+        for (Job job : unsortedJobs) {
+            if (job.getPostDate().equals("Just posted") || job.getPostDate().equals("Today")) {
+                sortedJobs.addFirst(job);
+            } else {
+                //organize by the number
+                String[] splitPostStr = job.getPostDate().split("\\s+");
+                String noPlusSign = splitPostStr[0].replaceAll("\\D", "");
+                int number = Integer.parseInt(noPlusSign);
+
+                sortedJobsMap.put(number, job);
+            }
+        }
+
+        for (Integer key : sortedJobsMap.keySet()) {
+            sortedJobs.addLast(sortedJobsMap.get(key));
+        }
+
         return sortedJobs;
     }
 
