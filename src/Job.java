@@ -19,11 +19,6 @@ public class Job {
 
     }
 
-    public void copyOtherIntoSelf(Job job) {
-        this.title = job.title;
-        this.company = job.company;
-    }
-
 
     public void setTitle(String title) {
         this.title = title;
@@ -69,10 +64,10 @@ public class Job {
         for (String field : fields) {
         }
 
-        str.append("Title: ").append(title).append("  |  ");
-        str.append("Company: ").append(company).append("  |  ");
-        str.append("Location: ").append(location).append("  |  ");
-        str.append("Date Posted: ").append(postDate).append("  |\n");
+        str.append("Title: ").append(title).append(" | ");
+        str.append("Company: ").append(company).append(" | ");
+        str.append("Location: ").append(location).append(" | ");
+        str.append("Date Posted: ").append(postDate).append(" |\n");
         str.append("-----------------------------------------");
 
         return str.toString();

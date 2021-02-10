@@ -5,26 +5,33 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JobScraper {
 
     private final List<Job> allJobs;
 
+    private final Map<String, String> siteQueries;
+
     public JobScraper() {
         allJobs = new ArrayList<>();
+        siteQueries = new HashMap<>();
+        siteQueries.put("Indeed", "https://www.indeed.com/jobs?q=");
     }
 
     public List<Job> getAllJobs() {
         return this.allJobs;
     }
+    //TODO: scrape multiple pages; add more websites; add different queries
 
-    public void scrapeForJobs(String searchQuery) {
+    public void scrapeForJobs(String searchQuery, String site) {
         WebClient client = new WebClient();
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
         try {
-            String searchUrl = "https://www.indeed.com/jobs?q="
+            String searchUrl = siteQueries.get(site)
                     + URLEncoder.encode(searchQuery, StandardCharsets.UTF_8);
             HtmlPage page = client.getPage(searchUrl);
 
