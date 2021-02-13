@@ -24,6 +24,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        System.out.println("Hello world let's test revert!");
+
         String selectedCompany = args[0];
         String searchQuery = args[1];
         String orgMethod = args[2].toLowerCase();
