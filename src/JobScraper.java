@@ -4,13 +4,16 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JobScraper {
 
-    protected final List<Job> allJobs;
+    private final List<Job> allJobs;
 
-    protected final Map<String, String> siteQueries;
+    private final Map<String, String> siteQueries;
 
     public JobScraper() {
         allJobs = new ArrayList<>();
@@ -26,24 +29,6 @@ public class JobScraper {
 
     //TODO: modularize this method
     public void scrapeForJobs(String searchQuery, String site) {
-
-        (new Thread(new ScrapeThread(searchQuery, site))).start();
-
-    }
-
-}
-
-class ScrapeThread implements Runnable {
-    private final String searchQuery;
-    private final String site;
-
-    public ScrapeThread(String searchQuery, String site) {
-        this.searchQuery = searchQuery;
-        this.site = site;
-    }
-
-    //TODO: modularize this method
-    public void run() {
         WebClient client = new WebClient();
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
@@ -97,10 +82,6 @@ class ScrapeThread implements Runnable {
             pageCount += 10;
         }
 
-    }
-
-    public Vector<Job> getAllJobs() {
-        return allJobs;
     }
 
 }
