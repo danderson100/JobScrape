@@ -5,27 +5,26 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class JobScraper {
+public class IndeedScraper extends Scraper {
 
-    private final List<Job> allJobs;
+    private final List<Job> indeedJobs;
+    private final String site;
 
-    private final Map<String, String> siteQueries;
-
-    public JobScraper() {
-        allJobs = new ArrayList<>();
-        siteQueries = new HashMap<>();
-        siteQueries.put("Indeed", "https://www.indeed.com/jobs?q=");
+    public IndeedScraper() {
+        super("Indeed");
+        site = "Indeed";
+        indeedJobs = new ArrayList<>();
     }
 
-    public List<Job> getAllJobs() {
-        return this.allJobs;
+    @Override
+    public List<Job> getSiteJobs() {
+        return indeedJobs;
     }
+
     //TODO: add more websites; add different queries
-
+    @Override
     public void scrapeForJobs(String searchQuery, String site) {
         WebClient client = new WebClient();
         client.getOptions().setCssEnabled(false);
@@ -39,7 +38,6 @@ public class JobScraper {
             try {
 
                 HtmlPage page = client.getPage(searchUrl);
-
                 List<HtmlElement> items =
                         page.getByXPath(".//div[@class='jobsearch-SerpJobCard unifiedRow row result']");
 
@@ -48,10 +46,9 @@ public class JobScraper {
                 } else {
                     for (HtmlElement item : items) {
                         Job webJob = createJob(item);
-                        allJobs.add(webJob);
-
+                        indeedJobs.add(webJob);
+                        addJob(webJob);
                     }
-
                 }
             } catch (Exception e) {
                 System.out.println("Error: " + e);
@@ -64,21 +61,13 @@ public class JobScraper {
     private Job createJob(HtmlElement item) {
 
         HtmlElement jobTitle = item.getFirstByXPath(".//h2[@class='title']");
-        HtmlElement spanCompany = item.getFirstByXPath(".//span[@class='company']");
+        HtmlElement jobCompany = item.getFirstByXPath(".//span[@class='company']");
         HtmlElement jobSummary = item.getFirstByXPath(".//div[@class='summary']");
         HtmlElement jobLocation =
                 item.getFirstByXPath(".//span[@class='location accessible-contrast-color-location']");
         HtmlElement jobPostDate = item.getFirstByXPath(".//span[@class='date ']");
 
-        String jobName = jobTitle == null ? "Couldn't get title" : jobTitle.asText();
-        //  String jobUrl = jobTitle.getHrefAttribute();
-
-        String summaryStr = jobSummary.asText();
-        String jobCompany = spanCompany == null ? "No Company Name" : spanCompany.asText();
-        String locString = jobLocation == null ? "No Location Found" : jobLocation.asText();
-        String postDate = jobPostDate == null ? "Couldn't find date" : jobPostDate.asText();
-
-        return new Job(jobName, jobCompany, locString, postDate, summaryStr);
+        return convertToStringReturnJob(jobTitle, jobCompany, jobLocation, jobPostDate, jobSummary);
     }
 
     private String generateUrl(int pageCount, String searchPage, String searchQuery, String site) {

@@ -14,7 +14,7 @@ public class TestCases {
 
     @Test
     public void testScraper() {
-        JobScraper scraper = new JobScraper();
+        IndeedScraper scraper = new IndeedScraper();
         scraper.scrapeForJobs("Software Engineer Intern", "Indeed");
         List<Job> jobs = scraper.getAllJobs();
         assertNotNull(jobs);

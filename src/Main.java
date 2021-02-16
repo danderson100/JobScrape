@@ -27,10 +27,24 @@ public class Main {
         String selectedCompany = args[0];
         String searchQuery = args[1];
         String orgMethod = args[2].toLowerCase();
+        Scraper scraper = null;
 
-        JobScraper scraper = new JobScraper();
+        switch (selectedCompany) {
+            case "Indeed" -> scraper = new IndeedScraper();
+            case "SimplyHired" -> scraper = new SimplyHiredScraper();
+        }
+
+        assert scraper != null;
         scraper.scrapeForJobs(searchQuery, selectedCompany);
-        List<Job> jobs = scraper.getAllJobs();
+
+        List<Job> jobs = scraper.getSiteJobs();
+
+
+//        SimplyHiredScraper simplyHiredScraper = new SimplyHiredScraper();
+//
+//        IndeedScraper indeedScraper = new IndeedScraper();
+//        indeedScraper.scrapeForJobs(searchQuery, selectedCompany);
+//        List<Job> jobs = indeedScraper.getIndeedJobs();
 
         Map<String, Job> sortedJobs = organize(orgMethod, jobs);
 
@@ -73,7 +87,13 @@ public class Main {
                 //organize by the number
                 String[] splitPostStr = job.getPostDate().split("\\s+");
                 String noPlusSign = splitPostStr[0].replaceAll("\\D", "");
-                int number = Integer.parseInt(noPlusSign);
+                int number = -1;
+                try {
+                    number = Integer.parseInt(noPlusSign);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: " + e);
+                }
+
 
                 sortedJobsMap.put(number, job);
             }
