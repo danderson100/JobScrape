@@ -30,7 +30,7 @@ public class SimplyHiredScraper extends Scraper {
         client.getOptions().setJavaScriptEnabled(false);
         //let's try to get 4 pages
         int pageCount = 0;
-        while (pageCount < 45) {
+        while (pageCount < 6) {
 
             String searchPage = "&start=" + pageCount;
             String searchUrl = generateUrl(pageCount, searchPage, searchQuery, site);
@@ -38,7 +38,7 @@ public class SimplyHiredScraper extends Scraper {
 
                 HtmlPage page = client.getPage(searchUrl);
                 List<HtmlElement> items =
-                        page.getByXPath(".//div[@class='jobsearch-SerpJobCard unifiedRow row result']");
+                        page.getByXPath(".//main[@class='jobs']");
 
                 if (items.isEmpty()) {
                     System.out.println("No items found.");
@@ -59,19 +59,19 @@ public class SimplyHiredScraper extends Scraper {
 
     private Job createJob(HtmlElement item) {
 
-        HtmlElement jobTitle = item.getFirstByXPath(".//h2[@class='title']");
-        HtmlElement jobCompany = item.getFirstByXPath(".//span[@class='company']");
-        HtmlElement jobSummary = item.getFirstByXPath(".//div[@class='summary']");
+        HtmlElement jobTitle = item.getFirstByXPath(".//div[@class='jobposting-title']");
+        HtmlElement jobCompany = item.getFirstByXPath(".//span[@class='JobPosting-labelWithIcon jobposting-company']");
+        HtmlElement jobSummary = item.getFirstByXPath(".//p[@class='jobposting-snippet']");
         HtmlElement jobLocation =
-                item.getFirstByXPath(".//span[@class='location accessible-contrast-color-location']");
-        HtmlElement jobPostDate = item.getFirstByXPath(".//span[@class='date ']");
+                item.getFirstByXPath(".//span[@class='jobposting-location']");
+        HtmlElement jobPostDate = item.getFirstByXPath(".//span[@class='SerpJob-timestamp']");
 
         return convertToStringReturnJob(jobTitle, jobCompany, jobLocation, jobPostDate, jobSummary);
     }
 
     private String generateUrl(int pageCount, String searchPage, String searchQuery, String site) {
         String searchUrl = "";
-        if (pageCount < 10) {
+        if (pageCount < 1) {
             searchUrl = siteQueries.get(site)
                     + URLEncoder.encode(searchQuery, StandardCharsets.UTF_8);
         } else {

@@ -7,7 +7,7 @@ import java.util.*;
  * Purpose: This is the main class for the JobScrap application. It takes command-line arguments
  * for the company website the user would like to scrape, the search query, and how to organize them.
  *
- * JOB SITES COMMANDS: Indeed (more coming soon)
+ * JOB SITES COMMANDS: Indeed, SimplyHired (more coming soon)
  *
  * SEARCH QUERIES: "Software Engineer Intern" (more coming soon)
  *
@@ -39,12 +39,12 @@ public class Main {
 
         List<Job> jobs = scraper.getSiteJobs();
 
+//        Scraper anotherScraper = new IndeedScraper();
+//        anotherScraper.scrapeForJobs(searchQuery, "Indeed");
+//        List<Job> otherJobs = anotherScraper.getSiteJobs();
+//        Map<String, Job> moreSorted = organize(orgMethod, otherJobs);
+//        printSortedJobs(moreSorted);
 
-//        SimplyHiredScraper simplyHiredScraper = new SimplyHiredScraper();
-//
-//        IndeedScraper indeedScraper = new IndeedScraper();
-//        indeedScraper.scrapeForJobs(searchQuery, selectedCompany);
-//        List<Job> jobs = indeedScraper.getIndeedJobs();
 
         Map<String, Job> sortedJobs = organize(orgMethod, jobs);
 
