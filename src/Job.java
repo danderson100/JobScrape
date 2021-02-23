@@ -1,5 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
 
 public class Job {
 
@@ -60,22 +58,11 @@ public class Job {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        String[] fields = new String[4];
-        fields[0] = "Title";
-        fields[1] = "Company";
-        fields[2] = "Location";
-        fields[3] = "Date Posted";
-        //FIXME make cleaner
-        for (String field : fields) {
-        }
 
-        str.append("Title: ").append(title).append(" | ");
-        str.append("Company: ").append(company).append(" | ");
-        str.append("Location: ").append(location).append(" | ");
-        str.append("Date Posted: ").append(postDate).append("\n");
-        str.append("-----------------------------------------");
-
-        return str.toString();
+        return "Title: " + title + " | " +
+                "Company: " + company + " | " +
+                "Location: " + location + " | " +
+                "Date Posted: " + postDate + "\n" +
+                "-----------------------------------------";
     }
 }

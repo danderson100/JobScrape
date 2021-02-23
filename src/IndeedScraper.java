@@ -10,20 +10,25 @@ import java.util.List;
 public class IndeedScraper extends Scraper {
 
     private final List<Job> indeedJobs;
-    private final String site;
 
     public IndeedScraper() {
         super("Indeed");
-        site = "Indeed";
         indeedJobs = new ArrayList<>();
     }
 
+    //returns a List of Jobs from Indeed.com matching criteria
     @Override
     public List<Job> getSiteJobs() {
         return indeedJobs;
     }
 
-    //TODO: add more websites; add different queries
+    /**
+     * Purpose: Overrides abstract method from Scraper.java. Searches
+     * the given website for job elements and stores them in indeedJobs.
+     *
+     * @param searchQuery is the user's search query.
+     * @param site the website to be scraped.
+     */
     @Override
     public void scrapeForJobs(String searchQuery, String site) {
         WebClient client = new WebClient();

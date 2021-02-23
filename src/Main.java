@@ -9,14 +9,15 @@ import java.util.*;
  *
  * JOB SITES COMMANDS: Indeed, SimplyHired (more coming soon)
  *
- * SEARCH QUERIES: "Software Engineer Intern" (more coming soon)
+ * SEARCH QUERIES: "Software Engineer Intern" or any job you are searching for.
  *
  * ORGANIZATION COMMANDS: Location, Company, Posted
  *
- * USAGE EXAMPLE: java Main Indeed "Software Engineer Intern" Location  -- (this command would scrape Indeed.com for all jobs
- * related to "Software Engineer Intern" and it would organize them alphabetically by location).
+ * USAGE: java Main companyName "Search Query" command
  *
- *
+ * USAGE EXAMPLE: java Main Indeed "Software Engineer Intern" Location
+ * -- (this command would scrape Indeed.com for all jobs related to "Software Engineer Intern"
+ * and it would organize them alphabetically by location).
  *
  */
 
@@ -39,14 +40,7 @@ public class Main {
 
         List<Job> jobs = scraper.getSiteJobs();
 
-//        Scraper anotherScraper = new IndeedScraper();
-//        anotherScraper.scrapeForJobs(searchQuery, "Indeed");
-//        List<Job> otherJobs = anotherScraper.getSiteJobs();
-//        Map<String, Job> moreSorted = organize(orgMethod, otherJobs);
-//        printSortedJobs(moreSorted);
-
-
-        Map<String, Job> sortedJobs = organize(orgMethod, jobs);
+        Map<String, Job> sortedJobs = organize(orgMethod, jobs, scraper);
 
         printSortedJobs(sortedJobs);
 
@@ -62,7 +56,7 @@ public class Main {
      *
      * @return a TreeMap containing the jobs sorted in natural ordering.
      */
-    private static Map<String, Job> organize(String orgMethod, List<Job> jobs) {
+    private static Map<String, Job> organize(String orgMethod, List<Job> jobs, Scraper scraper) {
         //organize by location
         Map<String, Job> sortedJobs = new TreeMap<>();
         switch (orgMethod) {
@@ -77,7 +71,7 @@ public class Main {
                 }
             }
             case "posted" -> {
-                List<Job> sortedByPosted = organizeByPosted(jobs);
+                List<Job> sortedByPosted = organizeByPosted(jobs, scraper);
                 for (Job job : sortedByPosted) {
                     System.out.println(job.toString());
                 }
@@ -96,7 +90,7 @@ public class Main {
      * @return a LinkedList of sorted jobs.
      */
     //TODO: Clean this method up
-    private static List<Job> organizeByPosted(List<Job> unsortedJobs) {
+    private static List<Job> organizeByPosted(List<Job> unsortedJobs, Scraper scraper) {
         LinkedList<Job> sortedJobs = new LinkedList<>();
         Map<Integer, Job> sortedJobsMap = new TreeMap<>();
         for (Job job : unsortedJobs) {

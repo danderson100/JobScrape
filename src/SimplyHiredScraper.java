@@ -29,10 +29,10 @@ public class SimplyHiredScraper extends Scraper {
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
         //let's try to get 4 pages
-        int pageCount = 0;
+        int pageCount = 1;
         while (pageCount < 6) {
 
-            String searchPage = "&start=" + pageCount;
+            String searchPage = "&pn=" + pageCount;
             String searchUrl = generateUrl(pageCount, searchPage, searchQuery, site);
             try {
 
@@ -52,7 +52,7 @@ public class SimplyHiredScraper extends Scraper {
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
-            pageCount += 10;
+            ++pageCount;
         }
 
     }
@@ -71,7 +71,7 @@ public class SimplyHiredScraper extends Scraper {
 
     private String generateUrl(int pageCount, String searchPage, String searchQuery, String site) {
         String searchUrl = "";
-        if (pageCount < 1) {
+        if (pageCount < 2) {
             searchUrl = siteQueries.get(site)
                     + URLEncoder.encode(searchQuery, StandardCharsets.UTF_8);
         } else {
