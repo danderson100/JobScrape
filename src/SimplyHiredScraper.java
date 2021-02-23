@@ -38,7 +38,7 @@ public class SimplyHiredScraper extends Scraper {
 
                 HtmlPage page = client.getPage(searchUrl);
                 List<HtmlElement> items =
-                        page.getByXPath(".//main[@class='jobs']");
+                        page.getByXPath("//article[@class='SerpJob']");
 
                 if (items.isEmpty()) {
                     System.out.println("No items found.");
