@@ -52,6 +52,16 @@ public class Main {
 
     }
 
+    /**
+     * Purpose: This private helper method organizes the job postings
+     * by whatever preference the user selected. Sorts in natural ordering,
+     * alphabetical by location, company name, or numeric by date posted.
+     *
+     * @param orgMethod is the user's organization selection.
+     * @param jobs is the list of scraped Jobs from the selected site.
+     *
+     * @return a TreeMap containing the jobs sorted in natural ordering.
+     */
     private static Map<String, Job> organize(String orgMethod, List<Job> jobs) {
         //organize by location
         Map<String, Job> sortedJobs = new TreeMap<>();
@@ -76,6 +86,15 @@ public class Main {
 
         return sortedJobs;
     }
+    /**
+     * Purpose: A separate method for sorting by date posted. Had to separate
+     * to account for unusual cases like posted "Today" or "Just Now" instead
+     * of the usual number of days ago.
+     *
+     * @param unsortedJobs the list of jobs to be sorted.
+     *
+     * @return a LinkedList of sorted jobs.
+     */
     //TODO: Clean this method up
     private static List<Job> organizeByPosted(List<Job> unsortedJobs) {
         LinkedList<Job> sortedJobs = new LinkedList<>();
@@ -83,7 +102,7 @@ public class Main {
         for (Job job : unsortedJobs) {
             if (job.getPostDate().equals("Just posted") || job.getPostDate().equals("Today")) {
                 sortedJobs.addFirst(job);
-            } else {
+            } else if (job.getPostDate().matches("\\d+d")) {
                 //organize by the number
                 String[] splitPostStr = job.getPostDate().split("\\s+");
                 String noPlusSign = splitPostStr[0].replaceAll("\\D", "");
@@ -96,6 +115,9 @@ public class Main {
 
 
                 sortedJobsMap.put(number, job);
+            } else {
+                //no post date found
+                sortedJobsMap.put(-1, job);
             }
         }
 
@@ -106,6 +128,12 @@ public class Main {
         return sortedJobs;
     }
 
+    /**
+     * Purpose: This iterates over the Job objects and prints them out
+     * using the job's toString method.
+     *
+     * @param sortedJobs the sorted jobs to be printed to Standard Output.
+     */
     private static void printSortedJobs(Map<String, Job> sortedJobs) {
 
         for (String str : sortedJobs.keySet()) {
