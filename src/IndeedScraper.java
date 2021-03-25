@@ -70,7 +70,7 @@ public class IndeedScraper extends Scraper {
         HtmlElement jobSummary = item.getFirstByXPath(".//div[@class='summary']");
         HtmlElement jobLocation =
                 item.getFirstByXPath(".//span[@class='location accessible-contrast-color-location']");
-        HtmlElement jobPostDate = item.getFirstByXPath(".//span[@class='date ']");
+        HtmlElement jobPostDate = item.getFirstByXPath(".//span[@class='date date-a11y']");
 
         return convertToStringReturnJob(jobTitle, jobCompany, jobLocation, jobPostDate, jobSummary);
     }
