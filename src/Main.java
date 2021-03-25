@@ -24,10 +24,17 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+        String selectedCompany, searchQuery, orgMethod;
+        selectedCompany = searchQuery = orgMethod = "";
 
-        String selectedCompany = args[0];
-        String searchQuery = args[1];
-        String orgMethod = args[2].toLowerCase();
+        try {
+            selectedCompany = args[0];
+            searchQuery = args[1];
+            orgMethod = args[2].toLowerCase();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("You didn't provide enough arguments.");
+        }
+
         Scraper scraper = null;
 
         switch (selectedCompany) {
