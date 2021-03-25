@@ -15,45 +15,16 @@ public class Job {
         this.summary = summary;
     }
 
-    public Job() {
-
-    }
-
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
     public String getCompany() {
         return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getPostDate() {
         return postDate;
-    }
-
-    public void setPostDate(String postDate) {
-        this.postDate = postDate;
-    }
-
-    public String getSummary() {
-        return summary;
     }
 
     @Override
